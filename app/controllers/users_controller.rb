@@ -1,12 +1,11 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :update_address]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :address]
   skip_before_action :verify_authenticity_token
 
   # GET /users
   # GET /users.json
   def index
-    
-    @users = User.all    
+    @users = User.all   
   end
 
   # GET /users/1
@@ -25,7 +24,7 @@ class UsersController < ApplicationController
 
   # POST /users
   # POST /users.json
-  def create
+  def create    
     @user = User.new(user_params)
 
     respond_to do |format|
@@ -63,10 +62,10 @@ class UsersController < ApplicationController
     end
   end
 
-  def update_address
+  def address
     respond_to do |format|
-      if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+      if @user.update(user_address)
+        format.html { redirect_to @user, notice: 'Address was successfully updated.' }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
@@ -78,13 +77,25 @@ class UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find_by(id: params[:id])
+      @user = User.find_by(_id: params[:id])
 
       render status: 404, json: { message: 'user not found.'} unless @user
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.permit(:first_name, :last_name, :gender, :age, :country, :address_1, :address_2)
+      params.permit(:first_name, :last_name, :gender, :age)
     end
+
+############################################################################
+    def user_address
+      address = params.permit(:country, :address_1, :address_2).to_h
+
+      address = @user.address.merge(address) unless @user.address.nil?
+      
+      { address: address}
+# TODO
+      # address.transform_keys{ |key| "address.#{key}" }
+    end
+############################################################################    
 end
