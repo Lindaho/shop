@@ -55,7 +55,7 @@ class UsersController < ApplicationController
 
   def address
     respond_to do |format|
-      if @user.update(user_address)
+      if @user.update(address: user_address)
         format.html { redirect_to @user, notice: 'Address was successfully updated.' }
         format.json { render :show, status: :ok, location: @user }
       else
@@ -82,9 +82,9 @@ class UsersController < ApplicationController
     def user_address
       address = params.permit(:country, :address_1, :address_2).to_h
 
-      address = @user.address.merge(address) unless @user.address.nil?
-      
-      { address: address}
+      @user.address.merge(address) unless @user.address.nil?
+
+      address
 # TODO
       # address.transform_keys{ |key| "address.#{key}" }
     end
