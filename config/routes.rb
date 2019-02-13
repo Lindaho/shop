@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
-  resources :users do
+  resources :users, :except => [:new, :edit] do
   	member do
-  		post :address
+  		put :address
   	end
+
+  	resource :shop
   end
 end
