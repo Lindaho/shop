@@ -45,5 +45,5 @@ RSpec.describe User, type: :model do
 		expect(user).not_to be_valid		
 	end
 
-	# it { is_expected.to embed_one :shop }
+	it { is_expected.to embed_one :shop }
 end
