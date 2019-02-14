@@ -3,9 +3,11 @@ class ShopsController < ApplicationController
 	before_action :set_shop, except: [:create]
 	skip_before_action :verify_authenticity_token
 
+	# GET /users/1/shop
 	def show
 	end
 
+	# POST /users/1/shop
 	def create
 		@shop = @user.build_shop(store_params)
 
@@ -16,6 +18,7 @@ class ShopsController < ApplicationController
 		end
 	end
 
+	# PUT /users/1/shop
 	def update			
 		if @shop.update(store_params)
 			render :show, status: :updated, location: user_shop_url
@@ -24,6 +27,7 @@ class ShopsController < ApplicationController
 		end
 	end
 
+	# DELETE /users/1/shop
 	def destroy
 		@shop.destroy 
 		
