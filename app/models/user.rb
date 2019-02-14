@@ -11,11 +11,12 @@ class User < ApplicationRecord
 
   before_validation { self.gender.downcase! }
 
+
   validates :first_name, :last_name, presence: true
   validates :gender, inclusion: { in: %w(male female other), message: "%{value} is not valid." }
-
-  # validates :age, greater_than: 0, only_integer: true
-  validate :age_validator
+  validates :age, inclusion: { in: 0..200, message: "age must be postive integer." }
+  # validates :age, numericality: { greater_than: 0 }
+  # befor { :age_validator }
 
 ############################################################################
   private
